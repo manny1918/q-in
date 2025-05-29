@@ -8,6 +8,8 @@ app.get('/', (req, res)=>{
     res.send('Welcome home!')
 })
 
+app.use('/api/users', require('./routes/userRoute'))
+
 app.listen(port, ()=>{
     console.log(`LISTENING ON PORT ${port}`)
 })
