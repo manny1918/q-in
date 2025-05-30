@@ -29,6 +29,14 @@ export default function Register() {
         e.preventDefault()
         if (password !== password2) {
             toast.error('The passwords do not match')
+        }else{
+            const userData = {
+                name,
+                email,
+                password
+            }
+
+            dispatch(register(userData))
         }
     }
 
