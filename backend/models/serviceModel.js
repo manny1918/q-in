@@ -1,9 +1,6 @@
 const mongoose = require('mongoose')
 
 const serviceSchema = mongoose.Schema({
-    user:{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    },
     serviceName:{
         type: String,
         required: [true, 'Please select a service'],

@@ -6,7 +6,7 @@ const getServices = asyncHandler(async (req, res) => {
     // Get user using the id in the jwt
     const user = await User.findById(req.user.id)
 
-    if(!user){
+    if (!user) {
         res.status(401)
         throw new Error('User not found')
     }
@@ -17,9 +17,27 @@ const getServices = asyncHandler(async (req, res) => {
 })
 
 const createService = asyncHandler(async (req, res) => {
-    res.status(200).json({
-        message: 'Create tickets'
+    const { serviceName, description } = req.body
+
+    if (!serviceName) {
+        res.status(400)
+        throw new Error('Please add a service name')
+    }
+
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const service = await Service.create({
+        serviceName,
+        description
     })
+
+    res.status(201).json(service)
 })
 
 module.exports = {
