@@ -9,6 +9,12 @@ const customerSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please add an identification'],
         unique: true
+    },
+    priority:{
+        type: String,
+        required: true,
+        enum: ['regular', 'high'],
+        default: 'regular'
     }
 },
 {
