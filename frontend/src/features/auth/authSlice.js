@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
 
+// Get user from LocalStorage
+const user = JSON.parse(localStorage.getItem('user'))
+
 const initialState = {
-    user: null,
+    user: user ? user : null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -32,7 +35,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        reset: (state)=>{
+        reset: (state) => {
             state.isLoading = false
             state.isError = false
             state.isSuccess = false
@@ -41,22 +44,22 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(register.pending, (state)=>{
-            state.isLoading = true
-        })
-        .addCase(register.fulfilled, (state, action)=>{
-            state.isLoading = false
-            state.isSuccess = true
-            state.user = JSON.stringify(action.payload)
-        })
-        .addCase(register.rejected, (state, action)=>{
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-            state.user = null
-        })
+            .addCase(register.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = JSON.stringify(action.payload)
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+                state.user = null
+            })
     }
 })
 
-export const {reset} = authSlice.actions
+export const { reset } = authSlice.actions
 export default authSlice.reducer
