@@ -13,7 +13,7 @@ const getServices = asyncHandler(async (req, res) => {
 
     const services = await Service.find()
 
-    res.status(200).json(services)
+    return res.status(200).json(services)
 })
 
 const getService = asyncHandler(async (req, res) => {
@@ -27,7 +27,7 @@ const getService = asyncHandler(async (req, res) => {
 
     const service = await Service.findById(req.params.id)
 
-    res.status(200).json(service)
+    return res.status(200).json(service)
 })
 
 const createService = asyncHandler(async (req, res) => {
@@ -56,7 +56,7 @@ const createService = asyncHandler(async (req, res) => {
         throw new Error('Service not found')
     }
 
-    res.status(201).json(service)
+    return res.status(201).json(service)
 })
 
 const updateService = asyncHandler(async (req, res) => {
@@ -77,7 +77,7 @@ const updateService = asyncHandler(async (req, res) => {
 
     const updatedService = await Service.findByIdAndUpdate(req.params.id, req.body, {new: true})
 
-    res.status(200).json(updatedService)
+    return res.status(200).json(updatedService)
 })
 
 const deleteService = asyncHandler(async (req, res) => {
@@ -98,7 +98,7 @@ const deleteService = asyncHandler(async (req, res) => {
 
     await Service.findByIdAndDelete(req.params.id)
 
-    res.status(200).json({success: true})
+    return res.status(200).json({success: true})
 })
 
 module.exports = {
