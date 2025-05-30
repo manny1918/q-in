@@ -21,7 +21,7 @@ const createService = asyncHandler(async (req, res) => {
 
     if (!serviceName) {
         res.status(400)
-        throw new Error('Please add a service name')
+        throw new Error('Please add a serviceName')
     }
 
     // Get user using the id in the jwt
