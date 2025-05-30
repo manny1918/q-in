@@ -11,10 +11,12 @@ export const useAuthStatus = () => {
     if (user) {
       setLoggedIn(true);
     } else {
-      setLoggedIn(true);
+      setLoggedIn(false);
     }
     setCheckingStatus(false);
   }, [user]);
+
+  return { loggedIn, checkingStatus };
 };
 
-return { loggedIn, checkingStatus };
+
