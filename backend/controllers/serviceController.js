@@ -30,21 +30,6 @@ const getService = asyncHandler(async (req, res) => {
     res.status(200).json(service)
 })
 
-const deleteService = asyncHandler(async (req, res) => {
-    // Get user using the id in the jwt
-    const user = await User.findById(req.user.id)
-
-    if (!user) {
-        res.status(401)
-        throw new Error('User not found')
-    }
-
-    const service = await Service.findById(req.params.id)
-    await Service.findByIdAndDelete(req.params.id)
-
-    res.status(200).json({success: true})
-})
-
 const createService = asyncHandler(async (req, res) => {
     const { serviceName, description } = req.body
 
@@ -74,9 +59,52 @@ const createService = asyncHandler(async (req, res) => {
     res.status(201).json(service)
 })
 
+const updateService = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const service = await Service.findById(req.params.id)
+
+    if(!service){
+        res.status(404)
+        throw new Error('Service not found')
+    }
+
+    const updatedService = await Service.findByIdAndUpdate(req.params.id, req.body, {new: true})
+
+    res.status(200).json(updatedService)
+})
+
+const deleteService = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const service = await Service.findById(req.params.id)
+
+    if(!service){
+        res.status(404)
+        throw new Error('Service not found')
+    }
+
+    await Service.findByIdAndDelete(req.params.id)
+
+    res.status(200).json({success: true})
+})
+
 module.exports = {
-    getServices,
     createService,
     getService,
+    getServices,
+    updateService,
     deleteService
 }
