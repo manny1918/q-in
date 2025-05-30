@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "server": "nodemon backend/server.js",
+    "client": "npm --prefix frontend run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Yomara",
   "license": "ISC",
