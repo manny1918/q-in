@@ -24,7 +24,7 @@ export const createService = createAsyncThunk(
         }
     })
 
-    export const getServices = createAsyncThunk(
+export const getServices = createAsyncThunk(
     'services/getAll',
     async (_, thunkAPI) => {
         try {
@@ -54,6 +54,19 @@ export const serviceSlice = createSlice({
                 state.isSuccess = true
             })
             .addCase(createService.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
+            .addCase(getServices.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getServices.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.services = actions.payload
+            })
+            .addCase(getServices.rejected, (state, actions) => {
                 state.isLoading = false
                 state.isError = true
                 state.messsge = actions.payload
