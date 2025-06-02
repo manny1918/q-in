@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { } from './serviceService'
+import serviceService from './serviceService'
 
 const initialState = {
     services: [],
@@ -31,7 +31,19 @@ export const serviceSlice = createSlice({
         reset: () => initialState
     },
     extraReducers: (builder) => {
-
+        builder
+            .addCase(createService.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createService.fulfilled, (state) => {
+                state.isLoading = false
+                state.isSuccess = true
+            })
+            .addCase(createService.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
     }
 })
 
