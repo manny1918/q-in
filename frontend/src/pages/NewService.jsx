@@ -42,7 +42,7 @@ export default function NewService() {
 
   return (
     <>
-      <BackButton />
+      <BackButton url='/' />
       <section className='heading'>
         <h1>Create New Service</h1>
         <p>Please fill out the form below</p>
