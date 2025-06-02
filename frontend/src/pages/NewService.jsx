@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { reset, createService } from '../features/service/serviceSlice';
 import Spinner from '../components/Spinner'
+import BackButton from '../components/BackButton';
 
 export default function NewService() {
   const { user } = useSelector((state) => state.auth);
@@ -17,12 +18,12 @@ export default function NewService() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    if(isError){
+  useEffect(() => {
+    if (isError) {
       toast.error(message)
     }
 
-    if(isSuccess){
+    if (isSuccess) {
       dispatch(reset())
       navigate('/services')
     }
@@ -32,15 +33,16 @@ export default function NewService() {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    dispatch(createService({serviceName, description}))
+    dispatch(createService({ serviceName, description }))
   }
 
-  if(isLoading){
-    return <Spinner/>
+  if (isLoading) {
+    return <Spinner />
   }
 
   return (
     <>
+      <BackButton />
       <section className='heading'>
         <h1>Create New Service</h1>
         <p>Please fill out the form below</p>
