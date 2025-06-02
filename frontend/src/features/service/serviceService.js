@@ -13,6 +13,17 @@ const createService = async (serviceData, token) => {
     return response.data
 }
 
+const getServices = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL, config)
+
+    return response.data
+}
+
 const serviceService = {
     createService
 }
