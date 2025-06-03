@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const users = [
   {
@@ -25,7 +26,7 @@ export default function Users() {
     <div className="user-page-container">
       <div className="user-page-header">
         <h1>User Management</h1>
-        <button className="btn">+ Add User</button>
+        <Link className="btn" to='/register'>+ Add User</Link>
       </div>
 
       <input
