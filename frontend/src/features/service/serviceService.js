@@ -25,7 +25,8 @@ const getServices = async (token) => {
 }
 
 const serviceService = {
-    createService
+    createService,
+    getServices
 }
 
 export default serviceService

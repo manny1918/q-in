@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Header from './components/Header';
 import NewService from './pages/NewService';
 import PrivateRoute from './components/PrivateRoute';
+import Services from './pages/Services';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/new-service' element={<PrivateRoute />}>
               <Route path='/new-service' element={<NewService />} />
+            </Route>
+            <Route path='/services' element={<PrivateRoute />}>
+              <Route path='/services' element={<Services />} />
             </Route>
           </Routes>
         </div>
