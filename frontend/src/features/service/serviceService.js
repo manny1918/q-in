@@ -24,9 +24,21 @@ const getServices = async (token) => {
     return response.data
 }
 
+const getService = async (serviceId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + serviceId, config)
+
+    return response.data
+}
+
 const serviceService = {
     createService,
-    getServices
+    getServices,
+    getService
 }
 
 export default serviceService
