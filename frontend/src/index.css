@@ -9,11 +9,18 @@
 body {
   font-family: 'Poppins', sans-serif;
   height: 100vh;
+  background: #f9fafb;
+  color: #1f2937;
 }
 
 a {
   text-decoration: none;
-  color: #000;
+  color: #2563eb;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #1d4ed8;
 }
 
 p {
@@ -48,7 +55,7 @@ h3 {
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid #d1d5db;
   margin-bottom: 60px;
 }
 
@@ -67,10 +74,6 @@ h3 {
   align-items: center;
 }
 
-.header ul li a:hover {
-  color: #777;
-}
-
 .header ul li a svg {
   margin-right: 5px;
 }
@@ -83,7 +86,7 @@ h3 {
 }
 
 .heading p {
-  color: #828282;
+  color: #6b7280;
 }
 
 .boxes {
@@ -98,16 +101,18 @@ h3 {
 
 .boxes div {
   padding: 30px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #d1d5db;
   border-radius: 10px;
+  background: #ffffff;
+  transition: box-shadow 0.3s ease;
+}
+
+.boxes div:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .boxes h2 {
   margin-top: 20px;
-}
-
-.boxes a:hover {
-  color: #777;
 }
 
 .form {
@@ -124,10 +129,11 @@ h3 {
 .form-group select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #d1d5db;
   border-radius: 5px;
   margin-bottom: 10px;
   font-family: inherit;
+  background: #f9fafb;
 }
 
 .form-group label {
@@ -138,18 +144,23 @@ h3 {
 
 .btn {
   padding: 10px 20px;
-  border: 1px solid #000;
+  border: none;
   border-radius: 5px;
-  background: #000;
+  background: #2563eb;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   text-align: center;
-  appearance: button;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #1d4ed8;
+  transform: scale(0.98);
 }
 
 .btn svg {
@@ -158,7 +169,8 @@ h3 {
 
 .btn-reverse {
   background: #fff;
-  color: #000;
+  color: #2563eb;
+  border: 1px solid #2563eb;
 }
 
 .btn-block {
@@ -172,8 +184,7 @@ h3 {
 }
 
 .btn-danger {
-  background: darkred;
-  border: none;
+  background: #dc2626;
 }
 
 .btn-back {
@@ -181,14 +192,11 @@ h3 {
   margin-bottom: 20px;
 }
 
-.btn:hover {
-  transform: scale(0.98);
-}
-
 .service-created {
-  border: 1px solid #e6e6e6;
+  border: 1px solid #d1d5db;
   border-radius: 5px;
   padding: 50px;
+  background: #ffffff;
 }
 
 .service-number {
@@ -200,10 +208,7 @@ h3 {
   margin-bottom: 10px;
 }
 
-.service-number p {
-  font-size: 1.3rem;
-}
-
+.service-number p,
 .service-info {
   font-size: 1.3rem;
 }
@@ -216,7 +221,7 @@ h3 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  background: #f4f4f4;
+  background: #f1f5f9;
   padding: 10px 15px;
   border-radius: 5px;
   text-align: center;
@@ -227,7 +232,7 @@ h3 {
 }
 
 .status {
-  background-color: #333;
+  background-color: #1f2937;
   color: #fff;
   width: 100px;
   padding: 0 20px;
@@ -238,21 +243,15 @@ h3 {
 }
 
 .status-new {
-  background-color: green;
-  color: #fff;
-  border-radius: 10px;
+  background-color: #22c55e;
 }
 
 .status-open {
-  background-color: steelblue;
-  color: #fff;
-  border-radius: 10px;
+  background-color: #3b82f6;
 }
 
 .status-closed {
-  background-color: darkred;
-  color: #fff;
-  border-radius: 10px;
+  background-color: #b91c1c;
 }
 
 .service-page {
@@ -278,23 +277,24 @@ h3 {
 .service-desc {
   margin: 20px 0;
   font-size: 17px;
-  background-color: #f4f4f4;
-  border: 1px #ccc solid;
+  background-color: #f9fafb;
+  border: 1px #d1d5db solid;
   padding: 10px 15px;
   border-radius: 5px;
 }
 
 .note {
-  border: 1px solid #e6e6e6;
+  border: 1px solid #d1d5db;
   border-radius: 5px;
   text-align: left;
   padding: 20px;
   margin-bottom: 20px;
   position: relative;
+  background: #ffffff;
 }
 
 .note-head {
-  background: #f4f4f4;
+  background: #f1f5f9;
   padding: 5px 20px;
   display: flex;
   justify-content: space-between;
@@ -310,7 +310,7 @@ h3 {
 }
 
 .delete-note {
-  color: red;
+  color: #dc2626;
   cursor: pointer;
   position: absolute;
   bottom: 10px;
@@ -320,7 +320,7 @@ h3 {
 .btn-close {
   background: none;
   border: none;
-  color: #000;
+  color: #1f2937;
   position: absolute;
   top: 5px;
   right: 5px;
@@ -329,30 +329,31 @@ h3 {
 }
 
 .btn-close:hover {
-  color: red;
+  color: #dc2626;
   transform: scale(0.98);
 }
 
 p.status-in-progress {
-  color: orangered;
+  color: #f97316;
 }
 
 p.status-waiting {
-  color: red;
+  color: #ef4444;
 }
 
 p.status-ready {
-  color: steelblue;
+  color: #3b82f6;
 }
 
 p.status-complete {
-  color: green;
+  color: #22c55e;
 }
 
 footer {
   position: sticky;
   top: 95vh;
   text-align: center;
+  color: #6b7280;
 }
 
 .loadingSpinnerContainer {
@@ -372,7 +373,7 @@ footer {
   width: 64px;
   height: 64px;
   border: 8px solid;
-  border-color: #000 transparent #555 transparent;
+  border-color: #2563eb transparent #3b82f6 transparent;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
 }
