@@ -9,6 +9,7 @@ import NewService from './pages/NewService';
 import PrivateRoute from './components/PrivateRoute';
 import Services from './pages/Services';
 import Service from './pages/Service';
+import Users from './pages/Users';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
             </Route>
             <Route path='/services/:serviceId' element={<PrivateRoute />}>
               <Route path='/services/:serviceId' element={<Service />} />
+            </Route>
+            <Route path='/users' element={<PrivateRoute />}>
+              <Route path='/users' element={<Users />} />
             </Route>
           </Routes>
         </div>
