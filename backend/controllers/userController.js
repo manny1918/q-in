@@ -57,13 +57,27 @@ const loginUser = asyncHandler(async (req, res) => {
   res.send('Login route');
 });
 
-const getMe =(req, res)=>{
+const getMe = (req, res) => {
   return res.status(200).json({
     id: req.user._id,
     email: req.user.email,
     name: req.user.name
   })
 }
+
+const getUsers = asyncHandler(async (req, res) => {
+  // Get user using the id in the jwt
+  const user = await User.findById(req.user.id)
+
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  const users = await User.find()
+
+  return res.status(200).json(users)
+})
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -74,5 +88,6 @@ const generateToken = (id) => {
 module.exports = {
   registerUser,
   loginUser,
-  getMe
+  getMe,
+  getUsers
 };
