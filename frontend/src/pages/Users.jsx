@@ -52,7 +52,7 @@ export default function Users() {
                                 </div>
                             </td>
                             <td>{user.email}</td>
-                            <td>{user.role}</td>
+                            <td>{user.isAdmin ? 'Admin' : 'User'}</td>
                             <td style={{ textAlign: 'right' }}>
                                 <button className="btn-sm">Edit</button>
                                 <button className="btn-sm btn-danger">Delete</button>
