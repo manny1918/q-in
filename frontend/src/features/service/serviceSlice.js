@@ -85,6 +85,19 @@ export const serviceSlice = createSlice({
                 state.isError = true
                 state.messsge = actions.payload
             })
+            .addCase(getService.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getService.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.service = actions.payload
+            })
+            .addCase(getService.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
     }
 })
 
