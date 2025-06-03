@@ -8,6 +8,7 @@ import Header from './components/Header';
 import NewService from './pages/NewService';
 import PrivateRoute from './components/PrivateRoute';
 import Services from './pages/Services';
+import Service from './pages/Service';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
             </Route>
             <Route path='/services' element={<PrivateRoute />}>
               <Route path='/services' element={<Services />} />
+            </Route>
+            <Route path='/services/:serviceId' element={<PrivateRoute />}>
+              <Route path='/services/:serviceId' element={<Service />} />
             </Route>
           </Routes>
         </div>

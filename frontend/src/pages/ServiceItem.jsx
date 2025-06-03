@@ -8,7 +8,7 @@ export default function ServiceItem({service}){
             <div className="status-new">
                 new
             </div>
-            <Link to={`services/${service._id}`} className = 'btn btn-reverse btn-sm'>View</Link>
+            <Link to={`/services/${service._id}`} className = 'btn btn-reverse btn-sm'>View</Link>
         </div>
     )
 }
