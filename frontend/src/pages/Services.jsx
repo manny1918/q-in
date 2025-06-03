@@ -13,7 +13,7 @@ export default function Services() {
     useEffect(() => {
         return () => {
             if (isSuccess) {
-                dispatch(reset)
+                dispatch(reset())
             }
         }
     }, [dispatch, isSuccess])
@@ -28,7 +28,7 @@ export default function Services() {
 
     return (
         <>
-            <BackButton />
+            <BackButton url='/'/>
             <h1>Services</h1>
             <div className="services">
                 <div className="service-headings">
