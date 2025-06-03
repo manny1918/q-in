@@ -25,8 +25,8 @@ export default function Register() {
             toast.error(message)
         }
 
-        if (isSuccess || user) {
-            navigate('/')
+        if (isSuccess) {
+            navigate('/users')
         }
 
         dispatch(reset())
