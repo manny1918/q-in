@@ -28,17 +28,19 @@ export default function Services() {
 
     return (
         <>
-            <BackButton url='/'/>
-            <h1>Services</h1>
-            <div className="services">
+            <BackButton url='/' />
+            <h1 className="home-title">Services</h1>
+
+            <div className="service-list-container">
                 <div className="service-headings">
                     <div>Date</div>
                     <div>Service</div>
                     <div>Status</div>
-                    <div></div>
+                    <div>Actions</div>
                 </div>
-                {services.map((service)=>(
-                    <ServiceItem key={service._id} service={service}/>
+
+                {services.map((service) => (
+                    <ServiceItem key={service._id} service={service} />
                 ))}
             </div>
         </>
