@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Services from './pages/Services';
 import Service from './pages/Service';
 import Users from './pages/Users';
+import ViewUser from './pages/ViewUser';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path='/users' element={<PrivateRoute />}>
               <Route path='/users' element={<Users />} />
+            </Route>
+            <Route path='/users/:userId' element={<PrivateRoute />}>
+              <Route path='/users/:userId' element={<ViewUser />} />
             </Route>
           </Routes>
         </div>
