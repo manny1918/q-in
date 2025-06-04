@@ -79,6 +79,19 @@ const getUsers = asyncHandler(async (req, res) => {
   return res.status(200).json(users)
 })
 
+const deleteUser = asyncHandler(async (req, res) => {
+  // Get signed user using the id in the jwt
+  const sinedUser = await User.findById(req.user.id)
+
+  if (!sinedUser) {
+    res.status(401)
+    throw new Error('Not authorized')
+  }
+
+  await User.findByIdAndDelete(req.params.userId)
+  return res.status(200).json({ success: true })
+})
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
@@ -89,5 +102,6 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
-  getUsers
+  getUsers,
+  deleteUser
 };
