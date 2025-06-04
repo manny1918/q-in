@@ -61,7 +61,7 @@ export const authSlice = createSlice({
             .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.user = JSON.stringify(action.payload)
+                state.user = action.payload
             })
             .addCase(register.rejected, (state, action) => {
                 state.isLoading = false
@@ -69,7 +69,7 @@ export const authSlice = createSlice({
                 state.message = action.payload
                 state.user = null
             })
-            .addCase(logout.fulfilled, (state, action) => {
+            .addCase(logout.fulfilled, (state) => {
                 state.user = null
             })
             .addCase(login.pending, (state) => {
@@ -78,7 +78,7 @@ export const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.user = JSON.stringify(action.payload)
+                state.user = action.payload
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false
