@@ -81,9 +81,9 @@ const getUsers = asyncHandler(async (req, res) => {
 
 const deleteUser = asyncHandler(async (req, res) => {
   // Get signed user using the id in the jwt
-  const sinedUser = await User.findById(req.user.id)
+  const signedUser = await User.findById(req.user.id)
 
-  if (!sinedUser) {
+  if (!signedUser) {
     res.status(401)
     throw new Error('Not authorized')
   }

@@ -64,7 +64,6 @@ export const userSlice = createSlice({
             .addCase(deleteUser.fulfilled, (state, actions) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.users = actions.payload
             })
             .addCase(deleteUser.rejected, (state, actions) => {
                 state.isLoading = false
