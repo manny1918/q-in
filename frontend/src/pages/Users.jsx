@@ -25,10 +25,12 @@ export default function Users() {
     }, [isError, message]);
 
     const onDelete = async (userId) => {
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
+
         try {
             await dispatch(deleteUser(userId)).unwrap();
             toast.success('User deleted');
-            dispatch(getUsers()); // Re-fetch users
+            await dispatch(getUsers()).unwrap();
         } catch (err) {
             toast.error(err?.message || 'Failed to delete user');
         }
@@ -63,9 +65,7 @@ export default function Users() {
                 <tbody>
                     {(Array.isArray(users) ? users : []).map(user => (
                         <tr key={user._id}>
-                            <td>
-                                <div className="user-info">{user.name}</div>
-                            </td>
+                            <td><div className="user-info">{user.name}</div></td>
                             <td>{user.email}</td>
                             <td>{user.isAdmin ? 'Admin' : 'User'}</td>
                             <td style={{ textAlign: 'right' }}>
