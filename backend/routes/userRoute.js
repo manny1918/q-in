@@ -4,7 +4,6 @@ const { registerUser, loginUser, getMe, getUsers } = require('../controllers/use
 
 const { protect } = require('../middleware/authMidleware');
 router.post('/', registerUser);
-router.post('/', registerUser);
 router.post('/login', loginUser);
 router.get('/me', protect, getMe);
 router.get('/', protect, getUsers);
