@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { register, reset } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
+import BackButton from '../components/BackButton'
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -57,6 +58,7 @@ export default function Register() {
     return (
         <>
             <section className="heading">
+                <BackButton url='/users' />
                 <h1>
                     <FaUser />Register
                 </h1>
