@@ -89,7 +89,7 @@ export default function ViewUser() {
 
   const serviceOptions = (services || []).map(s => ({
     value: s._id,
-    label: `${s.name} - ${s.description}`
+    label: `${s.serviceName}`
   }))
 
   return (
