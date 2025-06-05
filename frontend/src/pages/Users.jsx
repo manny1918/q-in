@@ -41,6 +41,8 @@ export default function Users() {
     }
 
     return (
+        <>
+        <BackButton url='/'/>
         <div className="user-page-container">
             <div className="user-page-header">
                 <h1>User Management</h1>
@@ -78,5 +80,6 @@ export default function Users() {
                 </tbody>
             </table>
         </div>
+        </>
     );
 }

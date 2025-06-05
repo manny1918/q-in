@@ -3,10 +3,14 @@ import { FaUser } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { register, reset } from '../features/auth/authSlice'
+import { getUser } from '../features/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 
 export default function ViewUser() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -15,9 +19,6 @@ export default function ViewUser() {
     })
 
     const { name, email, password, password2 } = formData
-
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth)
 
@@ -30,7 +31,7 @@ export default function ViewUser() {
             navigate('/users')
         }
 
-        dispatch(reset())
+        // dispatch(reset())
     }, [isError, isSuccess, user, navigate, dispatch])
 
     const onChange = (e) => {
