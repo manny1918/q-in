@@ -3,137 +3,166 @@ import { FaUser } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUser, updateUser } from '../features/user/userSlice'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { getServices } from '../features/service/serviceSlice'
+import { useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
+import Select from 'react-select'
 
 export default function ViewUser() {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const params = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const params = useParams()
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password2: ''
+  })
+
+  const [selectedServices, setSelectedServices] = useState([])
+
+  const { name, email, password, password2 } = formData
+
+  const { viewUser, isError, message } = useSelector(state => state.user)
+  const { services } = useSelector(state => state.service)
+
+  // Fetch user and available services
+  useEffect(() => {
+    dispatch(getUser(params.userId))
+    dispatch(getServices())
+  }, [dispatch, params.userId])
+
+  // Populate form when viewUser loads
+  useEffect(() => {
+    if (viewUser) {
+      setFormData({
+        name: viewUser.name || '',
+        email: viewUser.email || '',
         password: '',
         password2: ''
-    })
+      })
 
-    const { name, email, password, password2 } = formData
-
-    const { viewUser, isLoading, isError, isSuccess, message } = useSelector(state => state.user)
-
-    // Fetch user data on mount
-    useEffect(() => {
-        dispatch(getUser(params.userId))
-    }, [dispatch])
-
-    // Populate form fields when user data is retrieved
-    useEffect(() => {
-        if (viewUser) {
-            setFormData({
-                name: viewUser.name || '',
-                email: viewUser.email || '',
-                password: '',
-                password2: ''
-            })
-        }
-    }, [viewUser])
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message)
-        }
-
-    }, [isError, isSuccess, navigate, dispatch, message])
-
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
+      setSelectedServices(
+        (viewUser.services || []).map(service => ({
+          value: service._id,
+          label: `${service.name} - ${service.description}`
         }))
+      )
+    }
+  }, [viewUser])
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+  }, [isError, message])
+
+  const onChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    if (password !== password2) {
+      toast.error('The passwords do not match')
+      return
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-        if (password !== password2) {
-            toast.error('The passwords do not match')
-        } else {
-            const data = {
-                userData: {
-                    name,
-                    email,
-                    password,
-                },
-                id: params.userId
-            }
-
-            dispatch(updateUser(data))
-            toast.success('User successfully updated');
-            navigate('/users')
-        }
+    const data = {
+      id: params.userId,
+      userData: {
+        name,
+        email,
+        password,
+        serviceIds: selectedServices.map(s => s.value)
+      }
     }
 
-    return (
-        <>
-            <section className="heading">
-                <BackButton url='/users' />
-                <h1>
-                    <FaUser /> Edit User
-                </h1>
-                <p>Please create an account</p>
-            </section>
+    dispatch(updateUser(data))
+    toast.success('User successfully updated')
+    navigate('/users')
+  }
 
-            <section className="form">
-                <form onSubmit={onSubmit}>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            id='name'
-                            name='name'
-                            value={name}
-                            className="form-control"
-                            onChange={onChange}
-                            placeholder='Enter your name'
-                            required />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            id='email'
-                            name='email'
-                            value={email}
-                            className="form-control"
-                            onChange={onChange}
-                            placeholder='Enter your email'
-                            required />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            id='password'
-                            name='password'
-                            value={password}
-                            className="form-control"
-                            onChange={onChange}
-                            placeholder='Enter your password'
-                            required />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            id='password2'
-                            name='password2'
-                            value={password2}
-                            className="form-control"
-                            onChange={onChange}
-                            placeholder='Confirm your password'
-                            required />
-                    </div>
-                    <div className="form-group">
-                        <button className="btn btn-block">Submit</button>
-                    </div>
-                </form>
-            </section>
-        </>
-    )
+  const serviceOptions = (services || []).map(s => ({
+    value: s._id,
+    label: `${s.name} - ${s.description}`
+  }))
+
+  return (
+    <>
+      <section className="heading">
+        <BackButton url='/users' />
+        <h1><FaUser /> Edit User</h1>
+        <p>Update user details and assign services</p>
+      </section>
+
+      <section className="form">
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              id='name'
+              name='name'
+              value={name}
+              className="form-control"
+              onChange={onChange}
+              placeholder='Enter name'
+              required />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              id='email'
+              name='email'
+              value={email}
+              className="form-control"
+              onChange={onChange}
+              placeholder='Enter email'
+              required />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              id='password'
+              name='password'
+              value={password}
+              className="form-control"
+              onChange={onChange}
+              placeholder='Enter new password'
+              required />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              id='password2'
+              name='password2'
+              value={password2}
+              className="form-control"
+              onChange={onChange}
+              placeholder='Confirm new password'
+              required />
+          </div>
+
+          <div className="form-group">
+            <label>Select Services:</label>
+            <Select
+              options={serviceOptions}
+              value={selectedServices}
+              onChange={setSelectedServices}
+              isMulti
+              placeholder="Select services..."
+            />
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-block">Update User</button>
+          </div>
+        </form>
+      </section>
+    </>
+  )
 }
