@@ -72,8 +72,8 @@ export default function Users() {
                             <td>{user.isAdmin ? 'Admin' : 'User'}</td>
                             <td style={{ textAlign: 'right' }}>
                                 <Link to={`/users/${user._id}`} className="btn-sm">View</Link>
-                                <button className="btn-sm">Edit</button>
-                                <button className="btn-sm btn-danger" onClick={() => onDelete(user._id)}>Delete</button>
+                                <Link to={`/users/edit/${user._id}`} className="btn-sm">Edit</Link>
+                                <Link className="btn-sm" style={{color: 'red'}} onClick={() => onDelete(user._id)}>Delete</Link>
                             </td>
                         </tr>
                     ))}

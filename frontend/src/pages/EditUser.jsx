@@ -44,10 +44,6 @@ export default function ViewUser() {
             toast.error(message)
         }
 
-        if (isSuccess) {
-            toast.success('User successfully updated');
-        }
-
     }, [isError, isSuccess, navigate, dispatch, message])
 
     const onChange = (e) => {
@@ -72,6 +68,8 @@ export default function ViewUser() {
             }
 
             dispatch(updateUser(data))
+            toast.success('User successfully updated');
+            navigate('/users')
         }
     }
 
