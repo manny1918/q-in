@@ -4,12 +4,13 @@ import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { register, reset } from '../features/auth/authSlice'
 import { getUser } from '../features/user/userSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 
 export default function ViewUser() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const params = useParams()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -20,19 +21,31 @@ export default function ViewUser() {
 
     const { name, email, password, password2 } = formData
 
-    const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth)
+    const { viewUser, isLoading, isError, isSuccess, message } = useSelector(state => state.user)
+
+    // Fetch user data on mount
+    useEffect(() => {
+        dispatch(getUser(params.userId))
+    }, [dispatch])
+
+    // Populate form fields when user data is retrieved
+    useEffect(() => {
+        if (viewUser) {
+            setFormData({
+                name: viewUser.name || '',
+                email: viewUser.email || '',
+                password: '',
+                password2: ''
+            })
+        }
+    }, [viewUser])
 
     useEffect(() => {
         if (isError) {
             toast.error(message)
         }
 
-        if (isSuccess) {
-            navigate('/users')
-        }
-
-        // dispatch(reset())
-    }, [isError, isSuccess, user, navigate, dispatch])
+    }, [isError, isSuccess, navigate, dispatch, message])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -61,7 +74,7 @@ export default function ViewUser() {
             <section className="heading">
                 <BackButton url='/users' />
                 <h1>
-                    <FaUser />View User
+                    <FaUser /> View User
                 </h1>
                 <p>Please create an account</p>
             </section>
@@ -71,11 +84,13 @@ export default function ViewUser() {
                     <div className="form-group">
                         <input
                             type="text"
-                            id='name' name='name'
-                            value={name} className="form-control"
+                            id='name'
+                            name='name'
+                            value={name}
+                            className="form-control"
                             onChange={onChange}
                             placeholder='Enter your name'
-                            required />
+                            disabled />
                     </div>
                     <div className="form-group">
                         <input
@@ -86,7 +101,7 @@ export default function ViewUser() {
                             className="form-control"
                             onChange={onChange}
                             placeholder='Enter your email'
-                            required />
+                            disabled />
                     </div>
                     <div className="form-group">
                         <input
@@ -97,7 +112,7 @@ export default function ViewUser() {
                             className="form-control"
                             onChange={onChange}
                             placeholder='Enter your password'
-                            required />
+                            disabled />
                     </div>
                     <div className="form-group">
                         <input
@@ -107,11 +122,11 @@ export default function ViewUser() {
                             value={password2}
                             className="form-control"
                             onChange={onChange}
-                            placeholder='Enter confirm your password'
-                            required />
+                            placeholder='Confirm your password'
+                            disabled />
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-block">Submit</button>
+                        <button className="btn btn-block">Edit</button>
                     </div>
                 </form>
             </section>

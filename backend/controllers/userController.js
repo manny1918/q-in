@@ -64,6 +64,20 @@ const getMe = (req, res) => {
   })
 }
 
+const getUser = asyncHandler(async (req, res) => {
+  // Get user using the id in the jwt
+  const user = await User.findById(req.user.id)
+
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  const users = await User.findById(req.params.userId)
+
+  return res.status(200).json(users)
+})
+
 const getUsers = asyncHandler(async (req, res) => {
   // Get user using the id in the jwt
   const user = await User.findById(req.user.id)
@@ -101,6 +115,7 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  getUser,
   getUsers,
   deleteUser
 };
