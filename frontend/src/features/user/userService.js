@@ -25,6 +25,17 @@ const deleteUser = async (userId, token) => {
     return response.data
 }
 
+const updateUser = async (userId, userData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL + `edit/${userId}`, userData, config)
+
+    return response.data
+}
+
 const getUser = async (userId, token) => {
     const config = {
         headers: {
@@ -40,6 +51,7 @@ const getUser = async (userId, token) => {
 const userService = {
     getUser,
     getUsers,
+    updateUser,
     deleteUser
 }
 

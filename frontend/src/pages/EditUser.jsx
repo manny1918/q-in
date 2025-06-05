@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { register, reset } from '../features/auth/authSlice'
 import { getUser } from '../features/user/userSlice'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 
 export default function ViewUser() {
@@ -65,7 +65,7 @@ export default function ViewUser() {
                 password
             }
 
-            dispatch(register(userData))
+            dispatch(editUser(userData))
         }
     }
 
@@ -74,7 +74,7 @@ export default function ViewUser() {
             <section className="heading">
                 <BackButton url='/users' />
                 <h1>
-                    <FaUser /> View User
+                    <FaUser /> Edit User
                 </h1>
                 <p>Please create an account</p>
             </section>
@@ -90,7 +90,7 @@ export default function ViewUser() {
                             className="form-control"
                             onChange={onChange}
                             placeholder='Enter your name'
-                            disabled />
+                            required />
                     </div>
                     <div className="form-group">
                         <input
@@ -101,7 +101,7 @@ export default function ViewUser() {
                             className="form-control"
                             onChange={onChange}
                             placeholder='Enter your email'
-                            disabled />
+                            required />
                     </div>
                     <div className="form-group">
                         <input
@@ -112,7 +112,7 @@ export default function ViewUser() {
                             className="form-control"
                             onChange={onChange}
                             placeholder='Enter your password'
-                            disabled />
+                            required />
                     </div>
                     <div className="form-group">
                         <input
@@ -123,10 +123,10 @@ export default function ViewUser() {
                             className="form-control"
                             onChange={onChange}
                             placeholder='Confirm your password'
-                            disabled />
+                            required />
                     </div>
                     <div className="form-group">
-                        <Link to={`/users/edit/${params.userId}`} className="btn btn-block">Edit</Link>
+                        <button className="btn btn-block">Submit</button>
                     </div>
                 </form>
             </section>

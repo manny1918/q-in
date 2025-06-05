@@ -4,6 +4,7 @@ import userService from './userService'
 const initialState = {
     users: [],
     viewUser: {},
+    editUSer: {},
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -30,6 +31,20 @@ export const getUser = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token
             return await userService.getUser(userId, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message)
+                || error.message || error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    })
+
+export const updateUser = createAsyncThunk(
+    'users/update',
+    async (userId, userData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await userService.updateUser(userId, userData, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message)
                 || error.message || error.toString()
@@ -82,6 +97,19 @@ export const userSlice = createSlice({
                 state.users = actions.payload
             })
             .addCase(getUsers.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
+            .addCase(updateUser.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateUser.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.editUSer = actions.payload
+            })
+            .addCase(updateUser.rejected, (state, actions) => {
                 state.isLoading = false
                 state.isError = true
                 state.messsge = actions.payload

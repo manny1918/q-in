@@ -11,6 +11,7 @@ import Services from './pages/Services';
 import Service from './pages/Service';
 import Users from './pages/Users';
 import ViewUser from './pages/ViewUser';
+import EditUser from './pages/EditUser';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route path='/users/:userId' element={<PrivateRoute />}>
               <Route path='/users/:userId' element={<ViewUser />} />
+            </Route>
+            <Route path='/users/edit/:userId' element={<PrivateRoute />}>
+              <Route path='/users/edit/:userId' element={<EditUser />} />
             </Route>
           </Routes>
         </div>
