@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "circular-json": "^0.5.9",
     "colors": "^1.4.0",
     "concurrently": "^9.1.2",
     "dotenv": "^16.5.0",

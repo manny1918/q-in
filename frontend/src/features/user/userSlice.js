@@ -41,10 +41,11 @@ export const getUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     'users/update',
-    async (userId, userData, thunkAPI) => {
+    async (userData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await userService.updateUser(userId, userData, token)
+            const res =  await userService.updateUser(userData, token)
+            return res
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message)
                 || error.message || error.toString()

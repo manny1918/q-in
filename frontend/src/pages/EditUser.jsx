@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { register, reset } from '../features/auth/authSlice'
-import { getUser } from '../features/user/userSlice'
-import { useNavigate, useParams } from 'react-router-dom'
+import { getUser, updateUser } from '../features/user/userSlice'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 
 export default function ViewUser() {
@@ -59,13 +58,16 @@ export default function ViewUser() {
         if (password !== password2) {
             toast.error('The passwords do not match')
         } else {
-            const userData = {
-                name,
-                email,
-                password
+            const data = {
+                userData: {
+                    name,
+                    email,
+                    password,
+                },
+                id: params.userId
             }
 
-            dispatch(editUser(userData))
+            dispatch(updateUser(data))
         }
     }
 

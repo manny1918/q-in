@@ -92,6 +92,19 @@ const getUsers = asyncHandler(async (req, res) => {
   return res.status(200).json(users)
 })
 
+const updateUser = asyncHandler(async (req, res) => {
+  // Get signed user using the id in the jwt
+  const signedUser = await User.findById(req.user.id)
+
+  if (!signedUser) {
+    res.status(401)
+    throw new Error('Not authorized')
+  }
+
+  const udpatedUser = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
+  return res.status(200).json(udpatedUser)
+})
+
 const deleteUser = asyncHandler(async (req, res) => {
   // Get signed user using the id in the jwt
   const signedUser = await User.findById(req.user.id)
@@ -117,5 +130,6 @@ module.exports = {
   getMe,
   getUser,
   getUsers,
+  updateUser,
   deleteUser
 };
