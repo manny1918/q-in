@@ -3,8 +3,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const Customer = require('../models/customerModel');
+const User = require('../models/userModel');
 
 const createCustomer = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
     const { name, identification } = req.body;
     if (!name || !identification) {
         throw new Error('Please include all the fields');
@@ -24,6 +33,21 @@ const createCustomer = asyncHandler(async (req, res) => {
     return res.status(201).json(customer);
 })
 
+const getCustomers = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const customers = await Customer.find()
+
+    return res.status(200).json(customers)
+})
+
 module.exports = {
-    createCustomer
+    createCustomer,
+    getCustomers
 }
