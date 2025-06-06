@@ -3,7 +3,6 @@ import { FaUser } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUser, updateUser } from '../features/user/userSlice'
-import { getServices } from '../features/service/serviceSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import Select from 'react-select'
@@ -20,17 +19,19 @@ export default function ViewUser() {
     password2: ''
   })
 
-  const [selectedServices, setSelectedServices] = useState([])
+  const { viewUser, isError, message } = useSelector(state => state.user)
+  console.log(JSON.stringify(viewUser.services))
+
+  const [selectedServices, setSelectedServices] = useState(viewUser.services)
 
   const { name, email, password, password2 } = formData
 
-  const { viewUser, isError, message } = useSelector(state => state.user)
   const { services } = useSelector(state => state.service)
 
   // Fetch user and available services
   useEffect(() => {
     dispatch(getUser(params.userId))
-    dispatch(getServices())
+    // dispatch(getServices())
   }, [dispatch, params.userId])
 
   // Populate form when viewUser loads
@@ -46,7 +47,7 @@ export default function ViewUser() {
       setSelectedServices(
         (viewUser.services || []).map(service => ({
           value: service._id,
-          label: `${service.name} - ${service.description}`
+          label: service.serviceName
         }))
       )
     }
