@@ -1,15 +1,15 @@
 import axios from 'axios'
 
-const API_URL = '/api/customers/add-to-queue'
+const API_URL = '/api/queue/'
 
-const createCustomer = async (turnData) => {
+const addCustomerToTheQueue = async (turnData) => {
     const response = await axios.post(API_URL, turnData)
 
     return response.data
 }
 
 const customerService = {
-    createCustomer
+    addCustomerToTheQueue
 }
 
 export default customerService

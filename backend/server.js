@@ -19,6 +19,7 @@ app.get('/', (req, res)=>{
 app.use('/api/users', require('./routes/userRoute'))
 app.use('/api/services', require('./routes/serviceRoute'))
 app.use('/api/customers', require('./routes/customerRoute'))
+app.use('/api/queue', require('./routes/queueRoute'))
 
 app.use(errorHandler)
 

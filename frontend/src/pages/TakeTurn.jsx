@@ -55,9 +55,9 @@ export default function TakeTurn() {
     }
 
     try {
-      for (const serviceId of selectedServiceIds) {
-        await dispatch(addCustomerToQueue({ serviceId, customerId })).unwrap()
-      }
+    //   for (const serviceId of selectedServiceIds) {
+        await dispatch(addCustomerToQueue({ customer: customerId, services: selectedServiceIds })).unwrap()
+    //   }
       toast.success('You have been added to the selected queues!')
       setSelectionDone(true)
     } catch (err) {
