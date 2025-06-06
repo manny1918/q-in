@@ -83,22 +83,6 @@ export default function ViewUser() {
                             className="form-control"
                             disabled />
                     </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name='password'
-                            value={password}
-                            className="form-control"
-                            disabled />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name='password2'
-                            value={password2}
-                            className="form-control"
-                            disabled />
-                    </div>
 
                     <div className="form-group">
                         <label>Assigned Services:</label>

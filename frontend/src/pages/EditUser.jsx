@@ -125,28 +125,6 @@ export default function ViewUser() {
               placeholder='Enter email'
               required />
           </div>
-          <div className="form-group">
-            <input
-              type="password"
-              id='password'
-              name='password'
-              value={password}
-              className="form-control"
-              onChange={onChange}
-              placeholder='Enter new password'
-              required />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              id='password2'
-              name='password2'
-              value={password2}
-              className="form-control"
-              onChange={onChange}
-              placeholder='Confirm new password'
-              required />
-          </div>
 
           <div className="form-group">
             <label>Select Services:</label>
