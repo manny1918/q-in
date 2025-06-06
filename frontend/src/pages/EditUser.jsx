@@ -20,7 +20,6 @@ export default function ViewUser() {
   })
 
   const { viewUser, isError, message } = useSelector(state => state.user)
-  console.log(JSON.stringify(viewUser.services))
 
   const [selectedServices, setSelectedServices] = useState(viewUser.services)
 
