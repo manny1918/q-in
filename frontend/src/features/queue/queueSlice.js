@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import serviceService from './serviceService'
+import queueService from './queueService'
 
 const initialState = {
     services: [],
@@ -12,10 +12,10 @@ const initialState = {
 
 export const addCustomerToQueue = createAsyncThunk(
     'queue/add-customer',
-    async (serviceData, thunkAPI) => {
+    async (turnData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await serviceService.createService(serviceData, token)
+            return await queueService.addCustomerToTheQueue(turnData, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message)
                 || error.message || error.toString()
