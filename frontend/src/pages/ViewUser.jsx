@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { register, reset } from '../features/auth/authSlice'
 import { getUser } from '../features/user/userSlice'
+import { getServices } from '../features/service/serviceSlice'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
+import Select from 'react-select'
 
 export default function ViewUser() {
     const dispatch = useDispatch()
@@ -18,17 +19,20 @@ export default function ViewUser() {
         password: '',
         password2: ''
     })
+    const [selectedServices, setSelectedServices] = useState([])
 
     const { name, email, password, password2 } = formData
 
     const { viewUser, isLoading, isError, isSuccess, message } = useSelector(state => state.user)
+    const { services } = useSelector(state => state.service)
 
-    // Fetch user data on mount
+    // Load user and all services
     useEffect(() => {
         dispatch(getUser(params.userId))
-    }, [dispatch])
+        dispatch(getServices())
+    }, [dispatch, params.userId])
 
-    // Populate form fields when user data is retrieved
+    // Populate form and services
     useEffect(() => {
         if (viewUser) {
             setFormData({
@@ -37,6 +41,13 @@ export default function ViewUser() {
                 password: '',
                 password2: ''
             })
+
+            setSelectedServices(
+                (viewUser.services || []).map(service => ({
+                    value: service._id,
+                    label: service.serviceName
+                }))
+            )
         }
     }, [viewUser])
 
@@ -44,87 +55,61 @@ export default function ViewUser() {
         if (isError) {
             toast.error(message)
         }
-
     }, [isError, isSuccess, navigate, dispatch, message])
-
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
-
-    const onSubmit = (e) => {
-        e.preventDefault()
-        if (password !== password2) {
-            toast.error('The passwords do not match')
-        } else {
-            const userData = {
-                name,
-                email,
-                password
-            }
-
-            dispatch(register(userData))
-        }
-    }
 
     return (
         <>
             <section className="heading">
                 <BackButton url='/users' />
-                <h1>
-                    <FaUser /> View User
-                </h1>
-                <p>Please create an account</p>
+                <h1><FaUser /> View User</h1>
+                <p>View user details and assigned services</p>
             </section>
 
             <section className="form">
-                <form onSubmit={onSubmit}>
+                <form>
                     <div className="form-group">
                         <input
                             type="text"
-                            id='name'
                             name='name'
                             value={name}
                             className="form-control"
-                            onChange={onChange}
-                            placeholder='Enter your name'
                             disabled />
                     </div>
                     <div className="form-group">
                         <input
                             type="email"
-                            id='email'
                             name='email'
                             value={email}
                             className="form-control"
-                            onChange={onChange}
-                            placeholder='Enter your email'
                             disabled />
                     </div>
                     <div className="form-group">
                         <input
                             type="password"
-                            id='password'
                             name='password'
                             value={password}
                             className="form-control"
-                            onChange={onChange}
-                            placeholder='Enter your password'
                             disabled />
                     </div>
                     <div className="form-group">
                         <input
                             type="password"
-                            id='password2'
                             name='password2'
                             value={password2}
                             className="form-control"
-                            onChange={onChange}
-                            placeholder='Confirm your password'
                             disabled />
                     </div>
+
+                    <div className="form-group">
+                        <label>Assigned Services:</label>
+                        <Select
+                            value={selectedServices}
+                            isMulti
+                            isDisabled
+                            classNamePrefix="react-select"
+                        />
+                    </div>
+
                     <div className="form-group">
                         <Link to={`/users/edit/${params.userId}`} className="btn btn-block">Edit</Link>
                     </div>

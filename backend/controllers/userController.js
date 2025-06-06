@@ -75,7 +75,7 @@ const getUser = asyncHandler(async (req, res) => {
     throw new Error('User not found')
   }
 
-  const users = await User.findById(req.params.userId)
+  const users = await User.findById(req.params.userId).populate('services')
 
   return res.status(200).json(users)
 })
