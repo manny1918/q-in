@@ -1,0 +1,52 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import customerService from './customerService'
+
+const initialState = {
+    customers: [],
+    customer: {},
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    messsge: ''
+}
+
+export const createCustomer = createAsyncThunk(
+    'customer/create',
+    async (customerData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await customerService.createCustomer(customerData, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message)
+                || error.message || error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    })
+
+export const userSlice = createSlice({
+    name: 'customer',
+    initialState,
+    reducers: {
+        reset: () => initialState
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(createCustomer.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createCustomer.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.customer = actions.payload
+            })
+            .addCase(createCustomer.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
+    }
+})
+
+export const { reset } = userSlice.actions
+export default userSlice.reducer
