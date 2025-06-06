@@ -8,8 +8,20 @@ const createCustomer = async (customerData) => {
     return response.data
 }
 
+const getCustomer = async (customerId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + customerId, config)
+
+    return response.data
+}
+
 const customerService = {
-    createCustomer
+    createCustomer,
+    getCustomer
 }
 
 export default customerService
