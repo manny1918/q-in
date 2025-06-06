@@ -78,7 +78,7 @@ export default function ViewUser() {
         name,
         email,
         password,
-        serviceIds: selectedServices.map(s => s.value)
+        services: selectedServices.map(s => s.value)
       }
     }
 

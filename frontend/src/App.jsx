@@ -12,6 +12,7 @@ import Service from './pages/Service';
 import Users from './pages/Users';
 import ViewUser from './pages/ViewUser';
 import EditUser from './pages/EditUser';
+import TakeTurn from './pages/TakeTurn';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Header />
           <Routes>
             <Route path='/register' element={<Register />} />
+            <Route path='/take-turn' element={<TakeTurn />} />
             <Route path='/login' element={<Login />} />
             <Route path='/' element={<Home />} />
             <Route path='/new-service' element={<PrivateRoute />}>
