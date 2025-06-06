@@ -6,14 +6,6 @@ const Customer = require('../models/customerModel');
 const User = require('../models/userModel');
 
 const createCustomer = asyncHandler(async (req, res) => {
-    // Get user using the id in the jwt
-    const user = await User.findById(req.user.id)
-
-    if (!user) {
-        res.status(401)
-        throw new Error('User not authorized')
-    }
-
     const { name, identification } = req.body;
     if (!name || !identification) {
         throw new Error('Please include all the fields');

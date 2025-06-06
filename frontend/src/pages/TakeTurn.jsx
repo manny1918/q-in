@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getServices } from '../features/service/serviceSlice'
+import { createCustomer } from '../features/customer/customerSlice'
 // import { takeTurn } from '../features/turn/turnSlice'
 import { toast } from 'react-toastify'
 import { FaClock } from 'react-icons/fa'
@@ -84,6 +85,7 @@ export default function TakeTurn() {
                                 if (!customerName || !customerId) {
                                     toast.error('Please fill out both fields')
                                 } else {
+                                    dispatch(createCustomer({name: customerName, identification: customerId}))
                                     setShowModal(false)
                                 }
                             }}
