@@ -1,13 +1,21 @@
 const asyncHandler = require('express-async-handler')
 const Customer = require('../models/customerModel')
+const Queue = require('../models/queueModel')
+const User = require('../models/userModel')
+const CircularJSON = require('circular-json')
 
 const addCustomerToTheQueue = asyncHandler(async (req, res) => {
-    console.log(req.body)
+    const { services, customer: customerId }= req.body
+    for (let service of services){
+        const user = await User.findOne({ services: { $in: service }})
+        const customer = await Customer.findOne({identification: customerId})
+        await Queue.create({
+            customerId: customer._id,
+            userId: user._id
+        })
+    }
 
-    const customer = await Customer.find({ identification: req.params.customerId })
-
-
-    return res.status(200).json(customer)
+    return res.status(200).json({success: true})
 })
 
 
