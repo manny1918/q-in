@@ -74,7 +74,7 @@ export default function Services() {
                                 <td style={{ textAlign: 'right' }}>
                                     <Link to={`/services/${service._id}`} className="btn-sm">View</Link>
                                     <Link to={`/services/edit/${service._id}`} className="btn-sm">Edit</Link>
-                                    <button className="btn-sm" style={{ color: 'red' }} onClick={() => onDelete(service._id)}>Delete</button>
+                                    <Link className="btn-sm" style={{ color: 'red' }} onClick={() => onDelete(service._id)}>Delete</Link>
                                 </td>
                             </tr>
                         ))}
