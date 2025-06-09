@@ -1,46 +1,93 @@
-import { useSelector, useDispatch } from "react-redux"
-import { reset, getService } from '../features/service/serviceSlice'
-import BackButton from "../components/BackButton"
-import Spinner from "../components/Spinner"
-import { useParams } from "react-router-dom"
-import { useEffect } from "react"
-import { toast } from "react-toastify"
+import { useSelector, useDispatch } from "react-redux";
+import { reset, getService } from '../features/service/serviceSlice';
+import BackButton from "../components/BackButton";
+import Spinner from "../components/Spinner";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { FaClock } from 'react-icons/fa';
 
 export default function Service() {
+    const { service, isLoading, isError, message } = useSelector((state) => state.service);
 
-    const { service, isLoading, isError, isSuccees, message } = useSelector((state) => { return state.service })
+    const params = useParams();
+    const dispatch = useDispatch();
 
-    const params = useParams()
-    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getService(params.serviceId));
+
+        return () => {
+            dispatch(reset());
+        };
+    }, [dispatch, params.serviceId]);
 
     useEffect(() => {
         if (isError) {
-            toast.error(message)
+            toast.error(message);
         }
+    }, [isError, message]);
 
-        dispatch(getService(params.serviceId))
-    }, [isError, message, params.serviceId])
-
-    if(isLoading){
-        return <Spinner/>
+    if (isLoading) {
+        return <Spinner />;
     }
 
-    if(isError){
-        return <h3>Something went wrong</h3>
+    if (isError || !service) {
+        return <h3>Something went wrong</h3>;
     }
 
     return (
-        <div className="service-page">
-            <header className="service-header">
-                <BackButton url='/services'/>
-                <h2>Service ID: {params.serviceId}</h2>
-                <h3>Created on: {new Date(service.createdAt).toLocaleString()}</h3>
-                <hr />
-                <div className="service-desc">
-                    <h3>Service Name: </h3>
-                    <p>${service.serviceName}</p>
-                </div>
-            </header>
-        </div>
-    )
+        <>
+            <section className="heading">
+                <BackButton url='/services' />
+                <h1><FaClock /> View Service</h1>
+                <p>View service details</p>
+            </section>
+
+            <section className="form">
+                <form>
+                    <div className="form-group">
+                        <label>Service Name</label>
+                        <input
+                            type="text"
+                            value={service.serviceName || ''}
+                            className="form-control"
+                            disabled
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Status</label>
+                        <input
+                            type="text"
+                            value={service.active ? 'Active' : 'Inactive'}
+                            className="form-control"
+                            disabled
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Created At</label>
+                        <input
+                            type="text"
+                            value={new Date(service.createdAt).toLocaleString()}
+                            className="form-control"
+                            disabled
+                        />
+                    </div>
+
+                    {service.updatedAt && (
+                        <div className="form-group">
+                            <label>Last Updated</label>
+                            <input
+                                type="text"
+                                value={new Date(service.updatedAt).toLocaleString()}
+                                className="form-control"
+                                disabled
+                            />
+                        </div>
+                    )}
+                </form>
+            </section>
+        </>
+    );
 }
