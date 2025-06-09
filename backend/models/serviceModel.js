@@ -9,6 +9,11 @@ const serviceSchema = mongoose.Schema({
     description:{
         type: String
     },
+    durationInMinutes:{
+        type: Number,
+        required: true,
+        default: 30
+    }
 },
 {
     timestamps: true
