@@ -14,6 +14,7 @@ export default function NewService() {
   const [email] = useState(user.email);
   const [serviceName, setServiceName] = useState('');
   const [description, setDescription] = useState('');
+  const [serviceDuration, setServiceDuration] = useState(30);
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -66,6 +67,10 @@ export default function NewService() {
           <div className='form-group'>
             <label htmlFor='description'>Description</label>
             <input type='text' id='description' name='description' onChange={(e) => setDescription(e.target.value)} value={description} className='form-control' />
+          </div>
+          <div className='form-group'>
+            <label htmlFor='description'>Duration (In minutes)</label>
+            <input type='text' id='description' name='description' onChange={(e) => serviceDuration(e.target.value)} value={serviceDuration} className='form-control' />
           </div>
           <div className="form-group">
             <button className="btn btn-block">Submit</button>
