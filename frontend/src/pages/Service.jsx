@@ -39,8 +39,8 @@ export default function Service({ action }) {
         <>
             <section className="heading">
                 <BackButton url='/services' />
-                <h1><FaClock />{action} Service</h1>
-                <p>Vew service details</p>
+                <h1><FaClock /> {action} Service</h1>
+                <p>View service details</p>
             </section>
 
             <section className="form">
@@ -51,7 +51,7 @@ export default function Service({ action }) {
                             type="text"
                             value={service.serviceName || ''}
                             className="form-control"
-                            disabled
+                            readOnly={action === 'View'}
                         />
                     </div>
 
@@ -61,7 +61,7 @@ export default function Service({ action }) {
                             type="text"
                             value={service.description || ''}
                             className="form-control"
-                            disabled
+                            readOnly={action === 'View'}
                         />
                     </div>
 
@@ -71,7 +71,7 @@ export default function Service({ action }) {
                             type="text"
                             value={service.active ? 'Active' : 'Inactive'}
                             className="form-control"
-                            disabled
+                            readOnly={action === 'View'}
                         />
                     </div>
 
@@ -96,6 +96,15 @@ export default function Service({ action }) {
                             />
                         </div>
                     )}
+
+                    <div className="form-group">
+                        {action === 'Edit' ? (
+                            <button className="btn btn-block">Submit</button>
+                        ) : (
+                            <Link to='/services' className="btn btn-block">Back</Link>
+                        )
+                        }
+                    </div>
                 </form>
             </section>
         </>
