@@ -33,7 +33,10 @@ function App() {
               <Route path='/services' element={<Services />} />
             </Route>
             <Route path='/services/:serviceId' element={<PrivateRoute />}>
-              <Route path='/services/:serviceId' element={<Service />} />
+              <Route path='/services/:serviceId' element={<Service action='View' />} />
+            </Route>
+            <Route path='/services/edit/:serviceId' element={<PrivateRoute />}>
+              <Route path='/services/edit/:serviceId' element={<Service action='Edit' />} />
             </Route>
             <Route path='/users' element={<PrivateRoute />}>
               <Route path='/users' element={<Users />} />

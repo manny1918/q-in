@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { FaClock } from 'react-icons/fa';
 
-export default function Service() {
+export default function Service({ action }) {
     const { service, isLoading, isError, message } = useSelector((state) => state.service);
 
     const params = useParams();
@@ -39,8 +39,8 @@ export default function Service() {
         <>
             <section className="heading">
                 <BackButton url='/services' />
-                <h1><FaClock /> View Service</h1>
-                <p>View service details</p>
+                <h1><FaClock />{action} Service</h1>
+                <p>Vew service details</p>
             </section>
 
             <section className="form">
