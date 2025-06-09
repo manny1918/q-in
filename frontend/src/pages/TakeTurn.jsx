@@ -57,6 +57,7 @@ export default function TakeTurn() {
     try {
     //   for (const serviceId of selectedServiceIds) {
         await dispatch(addCustomerToQueue({ customer: customerId, services: selectedServiceIds })).unwrap()
+        handleReset()
     //   }
       toast.success('You have been added to the selected queues!')
       setSelectionDone(true)
@@ -108,14 +109,6 @@ export default function TakeTurn() {
             </div>
           )}
         </>
-      )}
-
-      {selectionDone && (
-        <div style={{ marginTop: '20px' }}>
-          <button className="btn btn-primary btn-block" onClick={handleReset}>
-            Done / Next Customer
-          </button>
-        </div>
       )}
 
       {/* Popup for Name & ID */}
