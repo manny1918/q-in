@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router();
-const { addCustomer } = require('../controllers/queueController');
+const { addCustomerToTheQueue } = require('../controllers/queueController');
 
 const { protect } = require('../middleware/authMidleware');
-router.route('/').post(addCustomer)
+router.route('/').post(addCustomerToTheQueue)
 
 module.exports = router;
