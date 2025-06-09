@@ -56,6 +56,16 @@ export default function Service() {
                     </div>
 
                     <div className="form-group">
+                        <label>Service Description</label>
+                        <input
+                            type="text"
+                            value={service.description || ''}
+                            className="form-control"
+                            disabled
+                        />
+                    </div>
+
+                    <div className="form-group">
                         <label>Status</label>
                         <input
                             type="text"
