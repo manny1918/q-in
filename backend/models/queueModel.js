@@ -1,18 +1,17 @@
 const mongoose = require('mongoose')
 
 const queueSchema = mongoose.Schema({
-    userEmailAddress:{
+    customerId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'Please add the operator email address']
+        required: [true, 'Please add the customer Id']
     },
-    customers:{
-        type: [mongoose.Schema.Types.ObjectId],
-        required: [true, 'Please add an email'],
-        unique: true
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, 'Please add the user Id']
     }
 },
-{
-    timestamps: true
-})
+    {
+        timestamps: true
+    })
 
 module.exports = mongoose.model('Queue', queueSchema)
