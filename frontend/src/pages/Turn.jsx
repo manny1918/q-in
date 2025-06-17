@@ -1,13 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaUser, FaCheck } from 'react-icons/fa'
+import { reset, getQueues } from '../features/queue/queueSlice';
+import { useDispatch } from 'react-redux';
 
 export default function Turn() {
+  const dispatch = useDispatch();
   // Dummy queue of customers
   const [queue, setQueue] = useState([
     { id: '001', name: 'Alice Johnson' },
     { id: '002', name: 'Bob Smith' },
     { id: '003', name: 'Carlos Diaz' },
   ])
+
+  useEffect(() => {
+    dispatch(getQueues());
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
   const [currentIndex, setCurrentIndex] = useState(0)
 

@@ -50,6 +50,11 @@ export default function Home() {
       link: "/users",
     },
     {
+      label: "ALL Queues",
+      icon: <MdLockClock className="icon" />,
+      link: "/queue",
+    },
+    {
       label: "My Queue",
       icon: <MdLockClock className="icon" />,
       link: "/turn",
