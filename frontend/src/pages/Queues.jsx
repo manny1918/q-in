@@ -1,63 +1,59 @@
-import { useEffect, useState } from 'react'
-import { FaUser, FaCheck } from 'react-icons/fa'
-import { reset, getQueues } from '../features/queue/queueSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getQueues, reset } from '../features/queue/queueSlice'
 
 export default function Queues() {
-  const dispatch = useDispatch();
-  const params = useParams()
-  const { queue, isLoading, isError, message } = useSelector((state) => state.queue);
-  // Dummy queue of customers
-  // const [queue, setQueue] = useState([
-  //   { id: '001', name: 'Alice Johnson' },
-  //   { id: '002', name: 'Bob Smith' },
-  //   { id: '003', name: 'Carlos Diaz' },
-  // ])
+  const dispatch = useDispatch()
+  const { queues, isLoading } = useSelector((state) => state.queue)
 
   useEffect(() => {
-    dispatch(getQueues(params.userId));
+    dispatch(getQueues())
+    return () => dispatch(reset())
+  }, [dispatch])
 
-    return () => {
-      dispatch(reset());
-    };
-  }, [dispatch]);
-
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const handleNext = () => {
-    if (currentIndex < queue.length - 1) {
-      setCurrentIndex(prev => prev + 1)
-    } else {
-      alert('No more customers in the queue.')
-    }
-  }
-
-  const currentCustomer = queue[currentIndex]
+  // Group queues by userId
+  const groupedQueues = queues.reduce((acc, item) => {
+    const userId = item.userId || 'Unknown User'
+    if (!acc[userId]) acc[userId] = []
+    acc[userId].push(item)
+    return acc
+  }, {})
 
   return (
     <div className="container">
-      <h1 className="heading">
-        <FaUser style={{ marginRight: '10px' }} />
-        Current Turn
-        <p>Attend the current customer and click "Done" to move to the next one</p>
-      </h1>
+      <h1 className="heading">Users and Their Queues</h1>
 
-      <div className="note" style={{ maxWidth: '400px', margin: 'auto', marginTop: '40px' }}>
-        <h2>Customer in Turn</h2>
-        {currentCustomer ? (
-          <>
-            <p><strong>Name:</strong> {currentCustomer.name}</p>
-            <p><strong>ID:</strong> {currentCustomer.id}</p>
-            <button className="btn btn-primary btn-block" onClick={handleNext}>
-              <FaCheck style={{ marginRight: '8px' }} />
-              Done
-            </button>
-          </>
-        ) : (
-          <p>No customers in the queue</p>
-        )}
-      </div>
+      {isLoading ? (
+        <p>Loading queues...</p>
+      ) : Object.keys(groupedQueues).length > 0 ? (
+        Object.entries(groupedQueues).map(([userId, userQueues]) => (
+          <div key={userId} className="note" style={{ marginBottom: '40px' }}>
+            <h2 style={{ marginBottom: '20px' }}>
+              User: <span style={{ color: '#2563eb' }}>{userId}</span>
+            </h2>
+
+            <div className="service-headings">
+              <div>Customer Name</div>
+              <div>Queue ID</div>
+              <div>Status</div>
+              <div>Position</div>
+            </div>
+
+            {userQueues.map((item, index) => (
+              <div key={item._id} className="service">
+                <div>{item.customerName || item.customerId}</div>
+                <div>{item.queueId || item._id}</div>
+                <div className={`status status-${(item.status || 'waiting').toLowerCase()}`}>
+                  {item.status || 'Waiting'}
+                </div>
+                <div>{index + 1}</div>
+              </div>
+            ))}
+          </div>
+        ))
+      ) : (
+        <p>No queues available.</p>
+      )}
     </div>
   )
 }
