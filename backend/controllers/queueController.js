@@ -19,7 +19,22 @@ const addCustomerToTheQueue = asyncHandler(async (req, res) => {
 })
 
 
+const getQueues = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const queues = await Queue.find()
+
+    return res.status(200).json(queues)
+})
+
 module.exports = {
-    addCustomerToTheQueue
+    addCustomerToTheQueue,
+    getQueues
 }
 
