@@ -11,6 +11,7 @@ import {
 } from "react-icons/md";
 
 const company = import.meta.env.VITE_COMPANY_NAME || "Default Company";
+const user = JSON.parse(localStorage.getItem('user'))
 
 export default function Home() {
   const options = [
@@ -57,7 +58,7 @@ export default function Home() {
     {
       label: "My Queue",
       icon: <MdLockClock className="icon" />,
-      link: "/turn",
+      link: `/queue/${user._id}`,
     },
   ];
 
