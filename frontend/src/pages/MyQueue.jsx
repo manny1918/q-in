@@ -3,7 +3,7 @@ import { FaUser, FaCheck } from 'react-icons/fa'
 import { reset, getQueues } from '../features/queue/queueSlice';
 import { useDispatch } from 'react-redux';
 
-export default function Turn() {
+export default function MyQueue() {
   const dispatch = useDispatch();
   // Dummy queue of customers
   const [queue, setQueue] = useState([

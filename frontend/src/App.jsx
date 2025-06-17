@@ -13,7 +13,7 @@ import Users from './pages/Users';
 import ViewUser from './pages/ViewUser';
 import EditUser from './pages/EditUser';
 import TakeTurn from './pages/TakeTurn';
-import Turn from './pages/Turn';
+import MyQueue from './pages/MyQueue';
 
 function App() {
   return (
@@ -47,8 +47,8 @@ function App() {
             <Route path='/users/edit/:userId' element={<PrivateRoute />}>
               <Route path='/users/edit/:userId' element={<EditUser />} />
             </Route>
-            <Route path='/turn' element={<PrivateRoute />}>
-              <Route path='/turn' element={<Turn />} />
+            <Route path='/queue/:userId' element={<PrivateRoute />}>
+              <Route path='/queue/:userId' element={<MyQueue />} />
             </Route>
           </Routes>
         </div>
