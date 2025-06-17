@@ -3,6 +3,7 @@ import queueService from './queueService'
 
 const initialState = {
     queue: [],
+    queues: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -15,6 +16,20 @@ export const addCustomerToQueue = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token
             return await queueService.addCustomerToTheQueue(turnData, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message)
+                || error.message || error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    })
+
+export const getQueues = createAsyncThunk(
+    'queue/getAll',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await queueService.getQueues(_, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message)
                 || error.message || error.toString()
@@ -45,7 +60,19 @@ export const serviceSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-
+            .addCase(getQueues.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getQueues.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.queues = actions.payload
+            })
+            .addCase(getQueues.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
             .addCase(getMyQueue.pending, (state) => {
                 state.isLoading = true
             })

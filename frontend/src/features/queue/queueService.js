@@ -8,8 +8,20 @@ const addCustomerToTheQueue = async (turnData) => {
     return response.data
 }
 
+const getQueues = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL, config)
+
+    return response.data
+}
+
 const customerService = {
-    addCustomerToTheQueue
+    addCustomerToTheQueue,
+    getQueues
 }
 
 export default customerService
