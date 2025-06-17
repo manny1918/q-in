@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { FaUser, FaCheck } from 'react-icons/fa'
-import { reset, getQueue } from '../features/queue/queueSlice';
+import { reset, getQueues } from '../features/queue/queueSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-export default function MyQueue() {
+export default function Queues() {
   const dispatch = useDispatch();
   const params = useParams()
   const { queue, isLoading, isError, message } = useSelector((state) => state.queue);
@@ -16,7 +16,7 @@ export default function MyQueue() {
   // ])
 
   useEffect(() => {
-    dispatch(getQueue(params.userId));
+    dispatch(getQueues(params.userId));
 
     return () => {
       dispatch(reset());

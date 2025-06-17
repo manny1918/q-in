@@ -14,6 +14,7 @@ import ViewUser from './pages/ViewUser';
 import EditUser from './pages/EditUser';
 import TakeTurn from './pages/TakeTurn';
 import MyQueue from './pages/MyQueue';
+import Queues from './pages/Queues';
 
 function App() {
   return (
@@ -46,6 +47,9 @@ function App() {
             </Route>
             <Route path='/users/edit/:userId' element={<PrivateRoute />}>
               <Route path='/users/edit/:userId' element={<EditUser />} />
+            </Route>
+            <Route path='/queue/' element={<PrivateRoute />}>
+              <Route path='/queue/' element={<Queues />} />
             </Route>
             <Route path='/queue/:userId' element={<PrivateRoute />}>
               <Route path='/queue/:userId' element={<MyQueue />} />
