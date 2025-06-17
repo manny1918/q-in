@@ -1,36 +1,50 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getQueues, reset } from '../features/queue/queueSlice'
+import { getQueues, reset as resetQueues } from '../features/queue/queueSlice'
+import { getUsers, reset as resetUsers } from '../features/user/userSlice'
 
 export default function Queues() {
   const dispatch = useDispatch()
-  const { queues, isLoading } = useSelector((state) => state.queue)
+
+  const { queues, isLoading: queuesLoading } = useSelector((state) => state.queue)
+  const { users, isLoading: usersLoading } = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(getQueues())
-    return () => dispatch(reset())
+    dispatch(getUsers())
+
+    return () => {
+      dispatch(resetQueues())
+      dispatch(resetUsers())
+    }
   }, [dispatch])
 
-  // Group queues by userId
-  const groupedQueues = queues.reduce((acc, item) => {
-    const userId = item.userId || 'Unknown User'
-    if (!acc[userId]) acc[userId] = []
-    acc[userId].push(item)
+  // Create a map of userId -> userName
+  const userMap = users.reduce((acc, user) => {
+    acc[user._id] = user.name
+    return acc
+  }, {})
+
+  // Group queues by user name
+  const groupedQueues = queues.reduce((acc, queue) => {
+    const userName = userMap[queue.userId] || 'Unknown User'
+    if (!acc[userName]) acc[userName] = []
+    acc[userName].push(queue)
     return acc
   }, {})
 
   return (
     <div className="container">
-      <h1 className="heading">Users and Their Queues</h1>
+      <h1 className="heading">Queues by User</h1>
 
-      {isLoading ? (
-        <p>Loading queues...</p>
-      ) : Object.keys(groupedQueues).length > 0 ? (
-        Object.entries(groupedQueues).map(([userId, userQueues]) => (
-          <div key={userId} className="note" style={{ marginBottom: '40px' }}>
-            <h2 style={{ marginBottom: '20px' }}>
-              User: <span style={{ color: '#2563eb' }}>{userId}</span>
-            </h2>
+      {(queuesLoading || usersLoading) ? (
+        <p>Loading...</p>
+      ) : Object.keys(groupedQueues).length === 0 ? (
+        <p>No queues available.</p>
+      ) : (
+        Object.entries(groupedQueues).map(([userName, userQueues]) => (
+          <div key={userName} className="note" style={{ marginBottom: '40px' }}>
+            <h2>User: <span style={{ color: '#2563eb' }}>{userName}</span></h2>
 
             <div className="service-headings">
               <div>Customer Name</div>
@@ -51,8 +65,6 @@ export default function Queues() {
             ))}
           </div>
         ))
-      ) : (
-        <p>No queues available.</p>
       )}
     </div>
   )
