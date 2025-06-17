@@ -8,6 +8,17 @@ const addCustomerToTheQueue = async (turnData) => {
     return response.data
 }
 
+const getQueue = async (userId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + userId, config)
+
+    return response.data
+}
+
 const getQueues = async (token) => {
     const config = {
         headers: {
@@ -21,6 +32,7 @@ const getQueues = async (token) => {
 
 const customerService = {
     addCustomerToTheQueue,
+    getQueue,
     getQueues
 }
 

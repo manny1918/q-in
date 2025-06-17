@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router();
-const { addCustomerToTheQueue, getQueues } = require('../controllers/queueController');
+const { addCustomerToTheQueue, getQueues, getQueue } = require('../controllers/queueController');
 
 const { protect } = require('../middleware/authMidleware');
 
 router.route('/').post(addCustomerToTheQueue).get(protect, getQueues)
+router.route('/:userId').get(protect, getQueue)
 
 module.exports = router;

@@ -19,6 +19,20 @@ const addCustomerToTheQueue = asyncHandler(async (req, res) => {
 })
 
 
+const getQueue = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const queue = await Queue.find({userId: req.params.userId})
+
+    return res.status(200).json(queue)
+})
+
 const getQueues = asyncHandler(async (req, res) => {
     // Get user using the id in the jwt
     const user = await User.findById(req.user.id)
@@ -35,6 +49,7 @@ const getQueues = asyncHandler(async (req, res) => {
 
 module.exports = {
     addCustomerToTheQueue,
+    getQueue,
     getQueues
 }
 

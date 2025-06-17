@@ -38,12 +38,12 @@ export const getQueues = createAsyncThunk(
         }
     })
 
-export const getMyQueue = createAsyncThunk(
-    'queue/my-queue',
-    async (_, thunkAPI) => {
+export const getQueue = createAsyncThunk(
+    'queue/get',
+    async (userId, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await queueService.addCustomerToTheQueue(_, token)
+            return await queueService.getQueue(userId, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message)
                 || error.message || error.toString()
@@ -73,15 +73,15 @@ export const serviceSlice = createSlice({
                 state.isError = true
                 state.messsge = actions.payload
             })
-            .addCase(getMyQueue.pending, (state) => {
+            .addCase(getQueue.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(getMyQueue.fulfilled, (state, actions) => {
+            .addCase(getQueue.fulfilled, (state, actions) => {
                 state.isLoading = false
                 state.isSuccess = true
                 state.queue = actions.payload
             })
-            .addCase(getMyQueue.rejected, (state, actions) => {
+            .addCase(getQueue.rejected, (state, actions) => {
                 state.isLoading = false
                 state.isError = true
                 state.messsge = actions.payload
