@@ -7,6 +7,7 @@ import {
   MdViewList,
   MdPerson,
   MdPlayArrow,
+  MdLockClock
 } from "react-icons/md";
 
 const company = import.meta.env.VITE_COMPANY_NAME || "Default Company";
@@ -47,6 +48,11 @@ export default function Home() {
       label: "Users",
       icon: <MdPerson className="icon" />,
       link: "/users",
+    },
+    {
+      label: "My Queue",
+      icon: <MdLockClock className="icon" />,
+      link: "/turn",
     },
   ];
 
