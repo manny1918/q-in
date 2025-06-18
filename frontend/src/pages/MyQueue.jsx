@@ -8,12 +8,6 @@ export default function MyQueue() {
   const dispatch = useDispatch();
   const params = useParams()
   const { queue, isLoading, isError, message } = useSelector((state) => state.queue);
-  // Dummy queue of customers
-  // const [queue, setQueue] = useState([
-  //   { id: '001', name: 'Alice Johnson' },
-  //   { id: '002', name: 'Bob Smith' },
-  //   { id: '003', name: 'Carlos Diaz' },
-  // ])
 
   useEffect(() => {
     dispatch(getQueue(params.userId));
@@ -21,7 +15,7 @@ export default function MyQueue() {
     return () => {
       dispatch(reset());
     };
-  }, [dispatch]);
+  }, [dispatch, params.userId]);
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -47,7 +41,7 @@ export default function MyQueue() {
         <h2>Customer in Turn</h2>
         {currentCustomer ? (
           <>
-            <p><strong>Name:</strong> {currentCustomer.name}</p>
+            <p><strong>Name:</strong> {currentCustomer.customerId}</p>
             <p><strong>ID:</strong> {currentCustomer.id}</p>
             <button className="btn btn-primary btn-block" onClick={handleNext}>
               <FaCheck style={{ marginRight: '8px' }} />
