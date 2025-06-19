@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FaUser, FaCheck } from 'react-icons/fa'
-import { reset as resetQueue, getQueue } from '../features/queue/queueSlice'
+import { reset as resetQueue, getQueue, removeFromQueue } from '../features/queue/queueSlice'
 import { reset as resetCustomer, getCustomers } from '../features/customer/customerSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -11,6 +11,8 @@ export default function MyQueue() {
 
   const { queue } = useSelector((state) => state.queue)
   const { customers } = useSelector((state) => state.customer)
+
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     dispatch(getQueue(params.userId))
@@ -26,19 +28,22 @@ export default function MyQueue() {
     return () => {
       dispatch(resetCustomer())
     }
-  }, [dispatch, params.userId])
-
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const handleNext = () => {
-    if (currentIndex < queue.length - 1) {
-      setCurrentIndex((prev) => prev + 1)
-    } else {
-      alert('No more customers in the queue.')
-    }
-  }
+  }, [dispatch])
 
   const currentCustomer = queue[currentIndex]
+
+  const handleNext = async () => {
+    if (!currentCustomer) return
+
+    await dispatch(removeFromQueue(currentCustomer._id))
+
+    // If this was the last customer, no need to increment
+    if (currentIndex >= queue.length - 1) {
+      setCurrentIndex(0)
+    } else {
+      setCurrentIndex(prev => prev + 1)
+    }
+  }
 
   const customerInfo = customers?.find(
     (c) => c._id === currentCustomer?.customerId
@@ -54,7 +59,7 @@ export default function MyQueue() {
 
       <div className="note" style={{ maxWidth: '400px', margin: 'auto', marginTop: '40px' }}>
         <h2>Customer in Turn</h2>
-        {currentCustomer ? (
+        {queue.length > 0 && currentCustomer ? (
           <>
             <p><strong>Name:</strong> {customerInfo?.name || 'Unknown'}</p>
             <p><strong>ID:</strong> {currentCustomer._id}</p>
