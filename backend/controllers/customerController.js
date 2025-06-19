@@ -39,6 +39,20 @@ const getCustomers = asyncHandler(async (req, res) => {
     return res.status(200).json(customers)
 })
 
+const getCustomersByUserId = asyncHandler(async (req, res) => {
+    // Get user using the id in the jwt
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const customers = await Customer.find()
+
+    return res.status(200).json(customers)
+})
+
 const getCustomer = asyncHandler(async (req, res) => {
     // Get user using the id in the jwt
     const user = await User.findById(req.user.id)
@@ -56,5 +70,6 @@ const getCustomer = asyncHandler(async (req, res) => {
 module.exports = {
     createCustomer,
     getCustomer,
-    getCustomers
+    getCustomers,
+    getCustomersByUserId
 }

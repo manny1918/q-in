@@ -19,9 +19,33 @@ const getCustomer = async (customerId, token) => {
     return response.data
 }
 
+const getCustomers = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL, config)
+
+    return response.data
+}
+
+const getCustomersByUser = async (userId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + userId, config)
+
+    return response.data
+}
+
 const customerService = {
     createCustomer,
-    getCustomer
+    getCustomers,
+    getCustomer,
+    getCustomersByUser
 }
 
 export default customerService

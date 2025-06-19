@@ -38,6 +38,34 @@ export const getCustomer = createAsyncThunk(
         }
     })
 
+export const getCustomers = createAsyncThunk(
+    'customer/getAll',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await customerService.getCustomers(token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message)
+                || error.message || error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    })
+
+export const getCustomersByUser = createAsyncThunk(
+    'customer/user',
+    async (userId, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await customerService.getCustomersByUser(userId, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message)
+                || error.message || error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    })
+
 export const userSlice = createSlice({
     name: 'customer',
     initialState,
@@ -68,6 +96,32 @@ export const userSlice = createSlice({
                 state.customer = actions.payload
             })
             .addCase(getCustomer.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
+            .addCase(getCustomers.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getCustomers.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.customers = actions.payload
+            })
+            .addCase(getCustomers.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
+            .addCase(getCustomersByUser.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getCustomersByUser.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.customers = actions.payload
+            })
+            .addCase(getCustomersByUser.rejected, (state, actions) => {
                 state.isLoading = false
                 state.isError = true
                 state.messsge = actions.payload
