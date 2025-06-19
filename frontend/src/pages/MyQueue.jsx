@@ -44,7 +44,6 @@ export default function MyQueue() {
     (c) => c._id === currentCustomer?.customerId
   )
 
-
   return (
     <div className="container">
       <h1 className="heading">
