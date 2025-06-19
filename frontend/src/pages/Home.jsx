@@ -58,13 +58,18 @@ export default function Home() {
     {
       label: "My Queue",
       icon: <MdLockClock className="icon" />,
-      link: `/queue/${user._id}`,
+      link: `/queue/me`,
     },
-    {
-      label: "View Customer turns",
-      icon: <MdLockClock className="icon" />,
-      link: `/queue/${user._id}`,
-    },
+    // {
+    //   label: "My Queue",
+    //   icon: <MdLockClock className="icon" />,
+    //   link: `/queue/${user._id}`,
+    // },
+    // {
+    //   label: "View Customer turns",
+    //   icon: <MdLockClock className="icon" />,
+    //   link: `/queue/${user._id}`,
+    // },
   ];
 
   return (

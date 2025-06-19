@@ -40,9 +40,10 @@ export const getQueues = createAsyncThunk(
 
 export const getQueue = createAsyncThunk(
     'queue/get',
-    async (userId, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
+            const userId = thunkAPI.getState().auth.user._id
             return await queueService.getQueue(userId, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message)

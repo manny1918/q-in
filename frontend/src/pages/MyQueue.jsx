@@ -15,7 +15,7 @@ export default function MyQueue() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    dispatch(getQueue(params.userId))
+    dispatch(getQueue())
 
     return () => {
       dispatch(resetQueue())
