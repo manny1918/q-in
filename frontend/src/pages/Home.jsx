@@ -60,6 +60,11 @@ export default function Home() {
       icon: <MdLockClock className="icon" />,
       link: `/queue/${user._id}`,
     },
+    {
+      label: "View Customer turns",
+      icon: <MdLockClock className="icon" />,
+      link: `/queue/${user._id}`,
+    },
   ];
 
   return (
