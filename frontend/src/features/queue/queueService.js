@@ -19,6 +19,17 @@ const getQueue = async (userId, token) => {
     return response.data
 }
 
+const removeFromQueue = async (turnId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.delete(API_URL + turnId, config)
+
+    return response.data
+}
+
 const getQueues = async (token) => {
     const config = {
         headers: {
@@ -33,7 +44,8 @@ const getQueues = async (token) => {
 const customerService = {
     addCustomerToTheQueue,
     getQueue,
-    getQueues
+    getQueues,
+    removeFromQueue
 }
 
 export default customerService

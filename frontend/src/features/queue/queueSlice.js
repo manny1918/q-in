@@ -52,6 +52,20 @@ export const getQueue = createAsyncThunk(
         }
     })
 
+export const removeFromQueue = createAsyncThunk(
+    'queue/remove',
+    async (turnId, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await queueService.removeFromQueue(turnId, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message)
+                || error.message || error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    })
+
 export const serviceSlice = createSlice({
     name: 'queue',
     initialState,
@@ -82,6 +96,18 @@ export const serviceSlice = createSlice({
                 state.queue = actions.payload
             })
             .addCase(getQueue.rejected, (state, actions) => {
+                state.isLoading = false
+                state.isError = true
+                state.messsge = actions.payload
+            })
+            .addCase(removeFromQueue.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(removeFromQueue.fulfilled, (state, actions) => {
+                state.isLoading = false
+                state.isSuccess = true
+            })
+            .addCase(removeFromQueue.rejected, (state, actions) => {
                 state.isLoading = false
                 state.isError = true
                 state.messsge = actions.payload
