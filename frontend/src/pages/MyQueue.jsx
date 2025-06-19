@@ -1,33 +1,49 @@
 import { useEffect, useState } from 'react'
 import { FaUser, FaCheck } from 'react-icons/fa'
-import { reset, getQueue } from '../features/queue/queueSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { reset as resetQueue, getQueue } from '../features/queue/queueSlice'
+import { reset as resetCustomer, getCustomers } from '../features/customer/customerSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 export default function MyQueue() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const params = useParams()
-  const { queue, isLoading, isError, message } = useSelector((state) => state.queue);
+
+  const { queue } = useSelector((state) => state.queue)
+  const { customers } = useSelector((state) => state.customer)
 
   useEffect(() => {
-    dispatch(getQueue(params.userId));
+    dispatch(getQueue(params.userId))
 
     return () => {
-      dispatch(reset());
-    };
-  }, [dispatch, params.userId]);
+      dispatch(resetQueue())
+    }
+  }, [dispatch, params.userId])
+
+  useEffect(() => {
+    dispatch(getCustomers())
+
+    return () => {
+      dispatch(resetCustomer())
+    }
+  }, [dispatch, params.userId])
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleNext = () => {
     if (currentIndex < queue.length - 1) {
-      setCurrentIndex(prev => prev + 1)
+      setCurrentIndex((prev) => prev + 1)
     } else {
       alert('No more customers in the queue.')
     }
   }
 
   const currentCustomer = queue[currentIndex]
+
+  const customerInfo = customers?.find(
+    (c) => c._id === currentCustomer?.customerId
+  )
+
 
   return (
     <div className="container">
@@ -41,8 +57,8 @@ export default function MyQueue() {
         <h2>Customer in Turn</h2>
         {currentCustomer ? (
           <>
-            <p><strong>Name:</strong> {currentCustomer.customerId}</p>
-            <p><strong>ID:</strong> {currentCustomer.id}</p>
+            <p><strong>Name:</strong> {customerInfo?.name || 'Unknown'}</p>
+            <p><strong>ID:</strong> {currentCustomer._id}</p>
             <button className="btn btn-primary btn-block" onClick={handleNext}>
               <FaCheck style={{ marginRight: '8px' }} />
               Done
